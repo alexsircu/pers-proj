@@ -15,9 +15,15 @@ class CreateWeightsTable extends Migration
     {
         Schema::create('weights', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->smallInteger('weight');
             $table->timestamp("insertion_time");
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 

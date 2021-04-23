@@ -13,11 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomepageController@index')->name('homepage');
 
-Route::resource('users', 'UserController');
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//rotte con autenticazione
+Route::resource('users', 'User\UserController')->middleware('auth');
+
+Route::prefix('user')
+->namespace('User')
+->middleware('auth')
+->name('user.')
+->group(function () {
+        // Route::get('/', 'HomeController@index')
+        // ->name('home');
+
+        Route::resource('weights', 'WeightController');
+});
